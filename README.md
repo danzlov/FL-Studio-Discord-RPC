@@ -10,10 +10,10 @@ A tool for tracking FL Studio project playback status, BPM, pitch, and other met
 
 The tracker works by reading FL Studio's memory in real-time to extract information about the current project:
 
-- **Memory Scanning:** Scans FL Studio's engine module (`FLEngine_x64.dll`) for known patterns to locate BPM, pitch, metronome state, playback status, and song/pattern mode.  
+- **Memory Scanning:** Scans FL Studio's engine module (`FLEngine_x64.dll`) for known patterns to locate BPM, pitch, metronome state, playback status, song position, and song/pattern mode.
 - **Value Reading:** Reads values directly from FL Studio's process continuously.  
 - **Discord RPC Update:** Updates your Discord profile with the current project details according to the template in `config.json`.  
-- **Customizable Display:** Use placeholders (`{Project}`, `{BPM}`, `{Pitch}`, `{Metronome}`, `{Mode}`, `{Status}`) for dynamic, real-time presence information.  
+- **Customizable Display:** Use placeholders (`{Project}`, `{BPM}`, `{Pitch}`, `{Metronome}`, `{Mode}`, `{Status}`, `{Position}`) for dynamic, real-time presence information. `{Position}` follows FL Studio's active `M:S:CS` or `B:S:T` time-display mode.
 
 ## Supported Versions
 
@@ -61,7 +61,7 @@ All settings are stored in `config.json` in the project folder. Example:
   "stoppedImageKey": "stop",
   "presence": {
     "details": "{Project} | BPM: {BPM} | Pitch: {Pitch} | Metronome: {Metronome} | Mode: {Mode}",
-    "state": "Playback: {Status}"
+    "state": "Playback: {Status} | Position: {Position}"
   }
 }
 ```
@@ -70,9 +70,10 @@ All settings are stored in `config.json` in the project folder. Example:
 
 If you prefer not to run the tracker separately, you can enable Discord RPC automatically using the **`version.dll` proxy**:
 
-1. **Download** the `version.dll` proxy file from the [releases page](https://github.com/nuiiv/FL-Studio-Discord-RPC/releases).  
-2. **Copy** the `version.dll` file into the **same folder as `fl64.exe`** (FL Studio's main executable).  
-3. **Launch FL Studio** normally. Discord RPC will automatically start and display your project details in real-time.
+1. **Download** `version.dll` from the releases page, or build `FLDRPC/FLDRPC.vcxproj` in `Release|x64`. The build generates both `FLDRPC.exe` and `version.dll` in `FLDRPC/x64/Release`.
+2. **Copy** `version.dll` into the same folder as `FL64.exe`.
+3. Optionally copy `config.json` into the same folder to customize the presence; otherwise the built-in defaults are used.
+4. **Launch FL Studio** normally. The proxy forwards FL Studio's Windows Version API calls and starts Discord RPC automatically.
 
 > [!IMPORTANT]
 >

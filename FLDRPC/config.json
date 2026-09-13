@@ -7,6 +7,6 @@
   "stoppedImageKey": "stop",
   "presence": {
     "details": "Project: {Project} | BPM: {BPM} | Pitch: {Pitch} | Metronome: {Metronome} | Mode: {Mode}",
-    "state": "Playback: {Status}"
+    "state": "Playback: {Status} | Position: {Position}"
   }
 }
